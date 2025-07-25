@@ -37,3 +37,5 @@ Your CSV should have columns:
 - Product: Product Name
 - Liking: Hedonic score (numeric)
 - [Attribute 1], [Attribute 2], ...: Boolean columns for CATA Attributes
+
+GLHF!
