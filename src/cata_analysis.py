@@ -78,7 +78,7 @@ def cochrans_q_test_for_attribute(attribute, df, products_to_compare):
             'error': str(e)
         }
 
-def run_cochrans_q_tests(df, max workers=4):
+def run_cochrans_q_tests(df, max_workers=4):
       """We will run parallel Cochran's Q tests for efficiency."""
       products_to_compare = [p for p in df['Product'].unique() if p != 'Ideal']
       cata_attrs = df.columns[3:]
@@ -87,7 +87,7 @@ def run_cochrans_q_tests(df, max workers=4):
       with ProcessPoolExecutor(max_workers=max_workers) as executor:
         test_func = partial(cochrans_q_test_for_attribute, df=df,
                           products_to_compare=products_to_compare)
-          results = list(executor.map(test_func, cata_attrs))
+        results = list(executor.map(test_func, cata_attrs))
 
       return pd.DataFrame(results, index=cata_attrs)
 
@@ -163,8 +163,9 @@ def correspondence_analysis(product_cata):
 
 def main():
     # Load and preprocess data
-    # insert the name of your CSV data into ('insert_data_here')
-    df = load_and_preprocess_data('insert_data_here.csv')
+    # insert the name of your CSV data into ('/data/sample_data.csv')
+    # you can change the path to your data file
+    df = load_and_preprocess_data('your_directory/cata-analysis-tool-py/data/sample_data.csv')
 
     # Basic frequency analysis
     product_cata, overall_freq = analyze_frequencies(df)
@@ -217,7 +218,7 @@ def main():
         plt.text(pca.components_[0, i]*1.1, pca.components_[1, i]*1.1,
                  feature, color='r')
 
-    plt.title('PCA Biplot of Coffee Products and Attributes')
+    plt.title('PCA Biplot of Food Products and Attributes')
     plt.xlabel(f'PC1 ({pca.explained_variance_ratio_[0]:.1%})')
     plt.ylabel(f'PC2 ({pca.explained_variance_ratio_[1]:.1%})')
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
